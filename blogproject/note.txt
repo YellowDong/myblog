@@ -1,0 +1,13 @@
+模型类中的外键需要设置on_delete参数，如on_delete=models.CASCADE,用来级联删除，你无需显性指定它，on_delete参数还有其他属性如models.PROTECT等等，具体查看文档
+
+模型类中字段参数verbose_name用来自定义你想要的字段名字
+
+模型类中的Meta内部类，用于定义一些Django模型的行为特性,如db_table定义表名, ordering定义查询集是按照哪个字段排序的,verbose_name给模型类起一个可读的名字等等，具体查看文档
+
+Django2.xx在url.py中从原来的from django.conf.urls import url,include  改成from django.urls import path,include 并且抛弃掉^ $标志开头或者结尾的符号
+
+在模板引擎中使用模板标签时，如想利用{% static %}静态模板标签时 记得在文件头引入{% load staticfiles %}  同时也要记得在settings.py文件中配置STATIC_URL 的路径 可以查看网页源代码具体文件的路径如：
+href="/static/blog/css/pace.css" 减去模板标签中的部分如href="{% static 'blog/css/pace.css' %}" 则STATIC_URL="/static/"  这样设计的好处就是减少耦合，例如把/static/ 改成/source/时不用每个路径都得改
+
+redirect函数可以对http请求进行重定向，它可以接收一个url作为参数,也可以接收一个模型实例作为参数,如果接收模型实例为参数，则模型实例必须实现了get_absolute_url方法，这样redirect会根据get_absolute_url方法返回的url进行重定向
+
