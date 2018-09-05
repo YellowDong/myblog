@@ -1,0 +1,8 @@
+*.vscode
+*.pyc
+*.db
+*.log
+venv
+/.idea
+fabric.py
+db.sqlite3

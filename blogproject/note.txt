@@ -11,3 +11,4 @@ href="/static/blog/css/pace.css" 减去模板标签中的部分如href="{% stati
 
 redirect函数可以对http请求进行重定向，它可以接收一个url作为参数,也可以接收一个模型实例作为参数,如果接收模型实例为参数，则模型实例必须实现了get_absolute_url方法，这样redirect会根据get_absolute_url方法返回的url进行重定向
 
+使用fabric自动部署，如果是pipenv作为虚拟环境，在不激活虚拟环境但是要运行里面的命令使用pipenv run命令如:pipenv run python manage.py migrate如果只是运行python manage.py migrate 会报找不到django之类的错误
