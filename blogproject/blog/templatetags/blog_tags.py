@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from ..models import Post, Category
+from ..models import Post, Category, Tag
+from django.db.models.aggregates import Count
 
 from django import template
 
@@ -21,4 +22,9 @@ def archives():
 
 @register.simple_tag
 def get_categories():
-    return Category.objects.all()
+    return Category.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)
+
+
+# @register.simple_tag
+# def get_tag():
+#     return Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)

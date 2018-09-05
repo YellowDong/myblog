@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Category
+from .models import Post, Category, Tag
 import markdown
 from django.views.generic import ListView, DetailView
 from comments.forms import CommentForm
@@ -26,6 +26,10 @@ def categories(request, category):
 
     post_list = Post.objects.filter(category_id=category).order_by('-created_time')
     return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+def tags(request, pk):
+    tag = Tag.objects.get(pk=pk)
 
 
 # 使用视图类

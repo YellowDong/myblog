@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Black &amp; White</title>
+    <title>小云柳 &amp; blog</title>
 
     <!-- meta -->
     <meta charset="UTF-8">
@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-5 col-xs-8">
                 <div class="logo">
-                    <h1><a href="{% url 'blog:index' %}"><b>Black</b> &amp; White</a></h1>
+                    <h1><a href="{% url 'blog:index' %}"><b>小云柳</b> &amp; 东来东往</a></h1>
                 </div>
             </div><!-- col-md-4 -->
             <div class="col-md-8 col-sm-7 col-xs-4">
@@ -107,7 +107,7 @@
                     <ul>
                         {% for category in categories_list %}
                         <li>
-                            <a href="{% url 'blog:categories' category.name %}">{{ category.name }}<span class="post-count">(13)</span></a>
+                            <a href="{% url 'blog:categories' category.name %}">{{ category.name }}<span class="post-count">({ category.num_posts })</span></a>
                         </li>
                         {% empty %}
                         暂无分类！
@@ -116,38 +116,17 @@
                 </div>
 
                 <div class="widget widget-tag-cloud">
-                    <h3 class="widget-title">标签云</h3>
+<!--                       <h3 class="widget-title">标签云</h3>
+                  {% get_tag as tag_list %}
                     <ul>
+                        {% for tag in tag_list %}
                         <li>
-                            <a href="#">Django</a>
+                            <a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}<span class="post-count">({ tag.num_posts })</span></a>
                         </li>
-                        <li>
-                            <a href="#">Python</a>
-                        </li>
-                        <li>
-                            <a href="#">Java</a>
-                        </li>
-                        <li>
-                            <a href="#">笔记</a>
-                        </li>
-                        <li>
-                            <a href="#">文档</a>
-                        </li>
-                        <li>
-                            <a href="#">AngularJS</a>
-                        </li>
-                        <li>
-                            <a href="#">CSS</a>
-                        </li>
-                        <li>
-                            <a href="#">JavaScript</a>
-                        </li>
-                        <li>
-                            <a href="#">Snippet</a>
-                        </li>
-                        <li>
-                            <a href="#">jQuery</a>
-                        </li>
+                        {% empty %}
+                        暂无标签！
+                        <!--{% endfor %}-->
+                        -->
                     </ul>
                 </div>
                 <div class="rss">
