@@ -25,6 +25,6 @@ def get_categories():
     return Category.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)
 
 
-# @register.simple_tag
-# def get_tag():
-#     return Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)
+@register.simple_tag
+def get_tag():
+    return Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)
