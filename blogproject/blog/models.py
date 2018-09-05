@@ -32,8 +32,8 @@ class Post(models.Model):
     # 新增一个字段用来记录文章的浏览量(新增字段记得重新迁移数据库)
     views = models.PositiveIntegerField(default=0)
 
-    class Meta:
-        ordering = ['-created_time']
+    # class Meta:
+    #     ordering = ['-created_time']
 
     def __str__(self):
         return self.title
