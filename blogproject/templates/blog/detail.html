@@ -90,26 +90,31 @@
     </div>
 {% endblock toc %}
 
-<form action="{% url 'comments:post_comment' post.pk %}" method="post" class="comment-form">
+<form action="{% url 'comments:post_comment' post.pk %}" method="post" id="comments-form">
     {% csrf_token %}
-    <div class="row">
-        <div class="col-md-4">
-            <label for="{{ form.name.id_for_label }}">名字:</label>
-            {{ form.author }}
-            {{ form.author.errors }}
+    <div id="comments-open-data">
+        <div id="comment-form-name">
+            <p>
+                <label for="{{ form.name.id_for_label }}">您的大名:</label>
+            </p>
+            <p>
+                {{ form.author }}
+                {{ form.author.errors }}
+                <span class="hint"> <<-必填</span>>
+            </p>>
         </div>
         <div class="col-md-4">
-            <label for="{{ form.email.id_for_label }}">邮箱:</label>
+            <label for="{{ form.email.id_for_label }}">电子邮箱:</label>
             {{ form.email }}
             {{ form.email.errors }}
         </div>
         <div class="col-md-4">
-            <label for="{{ form.url.id_for_label }}">URL:</label>
+            <label for="{{ form.url.id_for_label }}">个人网址:</label>
             {{ form.url }}
             {{ form.url.errors }}
         </div>
         <div class="col-md-4">
-            <label for="{{ form.text.id_for_label }}">评论:</label>
+            <label for="{{ form.text.id_for_label }}">您的留言:</label>
             {{ form.body }}
             {{ form.body.errors }}
             <button type="submit" class="comment-bin">发表</button>
