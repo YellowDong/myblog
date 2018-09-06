@@ -7,7 +7,7 @@ from .models import Post
 
 class AllRssPostsFeed(Feed):
     title = '小云柳的博客更新啦！！！'
-    link = '/'
+    link = 'all/rss'
     description = '博客更新的具体文章'
 
     def item(self):
