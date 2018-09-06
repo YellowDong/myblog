@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category, Tag
 import markdown
+from markdown.extensions.toc import TocExtension
 from django.views.generic import ListView, DetailView
+from django.utils.text import slugify
 from comments.forms import CommentForm
 # Create your views here.
 
@@ -115,7 +117,7 @@ def detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     md = markdown.Markdown(extensions=['markdown.extensions.extra',
                                        'markdown.extensions.codehilite',
-                                       'markdown.extensions.toc'])
+                                       TocExtension(slugify=slugify), ])
     post.dody = md.convert(post.body)
     post.toc = md.toc
     post.increase_views()
@@ -123,3 +125,16 @@ def detail(request, pk):
     comment_list = post.comment_set.all()
     context = {'post': post, 'form': form, 'comment_list': comment_list}
     return render(request, 'blog/detail.html', context=context)
+
+
+def search(request):
+    keyword = request.GET.get('keyword')
+    if not keyword:
+        error_msg = "请输入关键词"
+        return render(request, 'blog/index.html', {'error_msg': error_msg})
+    posts = Post.objects.all()
+    post_list = []
+    for post in posts:
+        if keyword in post.title or keyword in post.body:
+            post_list.append(post)
+    return render(request, 'blog/index.html', context={'post_list': post_list})
