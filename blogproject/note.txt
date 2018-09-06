@@ -14,3 +14,5 @@ redirect函数可以对http请求进行重定向，它可以接收一个url作�
 使用fabric自动部署，如果是pipenv作为虚拟环境，在不激活虚拟环境但是要运行里面的命令使用pipenv run命令如:pipenv run python manage.py migrate如果只是运行python manage.py migrate 会报找不到django之类的错误
 
 上传了一些不想上传的文件到github之后，如果想删除github上的文件而不影响本地的文件可以用git rm -r --cached .idea（如删除.idea）
+
+本地上传文件到github不需要输入用户名和密码在命令行输入git config --global credential.helper store，输入第一次后以后就不需要输入了
