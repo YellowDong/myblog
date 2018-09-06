@@ -8,6 +8,9 @@ django = "*"
 markdown = "*"
 pygments = "*"
 "fabric3" = "*"
+whoosh = "*"
+django-haystack = "*"
+jieba = "*"
 
 [dev-packages]
 
