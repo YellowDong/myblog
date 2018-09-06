@@ -6,6 +6,6 @@ urlpatterns = [path(r'', views.index, name='index'),
                path(r'post/<int:pk>/', views.detail, name='detail'),
                path(r'post/<year>/<month>', views.archives,
                     name='archives'),
-               path(r'category/<category>', views.categories,
+               path(r'category/<int:pk>', views.categories,
                     name='categories'),
                path(r'tag/<int:pk>', views.tags, name='tags'), ]

@@ -17,14 +17,14 @@ def index(request):
 
 def archives(request, year, month):
     post_list = Post.objects.filter(created_time__year=year,
-                                    created_time__month=month).order_by('-created_time')
+                                    created_time__month=month)  # .order_by('-created_time')
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
-def categories(request, category):
-    category = Category.objects.get(name=category)  # 这里用get_object_or_404更好, 参数传pk更好
+def categories(request, pk):
+    # category = Category.objects.get(name=category)  # 这里用get_object_or_404更好, 参数传pk更好
 
-    post_list = Post.objects.filter(category_id=category.pk).order_by('-created_time')
+    post_list = Post.objects.filter(category=pk)  # .order_by('-created_time') 这里因为在model.py的Meta类中定义了排列顺序 不需要在排列
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
