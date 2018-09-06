@@ -113,10 +113,11 @@ class IndexView(ListView):
 
 def detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.body = markdown.markdown(post.body,
-                                  entensions=['markdown.extensions.extra',
-                                              'markdown.extensions.codehilite',
-                                              'markdown.extensions.toc', ])
+    md = markdown.markdown(entensions=['markdown.extensions.extra',
+                                       'markdown.extensions.codehilite',
+                                       'markdown.extensions.toc', ])
+    post.dody = md.convert(post.body)
+    post.toc = md.toc
     post.increase_views()
     form = CommentForm()
     comment_list = post.comment_set.all()
