@@ -24,13 +24,13 @@ def archives(request, year, month):
 def categories(request, category):
     category = Category.objects.get(name=category)  # 这里用get_object_or_404更好, 参数传pk更好
 
-    post_list = Post.objects.filter(category_id=category).order_by('-created_time')
+    post_list = Post.objects.filter(category_id=category.pk).order_by('-created_time')
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
 def tags(request, pk):
-    tag = Tag.objects.get(pk=pk)
-    post_list = Post.objects.filter(tags_id=tag)
+    #tag = Tag.objects.get(pk=pk)
+    post_list = Post.objects.filter(tags_id=pk)
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
