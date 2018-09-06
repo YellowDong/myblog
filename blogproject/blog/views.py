@@ -30,7 +30,7 @@ def categories(request, category):
 
 def tags(request, pk):
     tag = Tag.objects.get(pk=pk)
-    post_list = Post.objects.filter(tag_id=tag)
+    post_list = Post.objects.filter(tags_id=tag)
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 

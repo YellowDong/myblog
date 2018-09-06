@@ -8,4 +8,4 @@ urlpatterns = [path(r'', views.index, name='index'),
                     name='archives'),
                path(r'category/<category>.*?', views.categories,
                     name='categories'),
-               path(r'tag/<pk>\d+', views.tags, name='tags')]
+               path(r'tag/<int:pk>\d+', views.tags, name='tags'), ]
