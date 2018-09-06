@@ -34,20 +34,35 @@
                 <span class="hint"> <<-必填</span>
             </p>
         </div>
-        <div class="col-md-4">
-            <label for="{{ form.email.id_for_label }}">电子邮箱:</label>
-            {{ form.email }}
-            {{ form.email.errors }}
+        <div id="comment-form-email">
+            <p>
+                <label for="{{ form.email.id_for_label }}">电子邮箱:</label>
+            </p>
+            <p>
+                {{ form.email }}
+                {{ form.email.errors }}
+                <span class="hint"> <<-必填 不公开</span>
+            </p>
         </div>
-        <div class="col-md-4">
-            <label for="{{ form.url.id_for_label }}">个人网址:</label>
-            {{ form.url }}
-            {{ form.url.errors }}
+        <div id="comment-form-url">
+            <p>
+                <label for="{{ form.url.id_for_label }}">个人网址:</label>
+            </p>
+            <p>
+                {{ form.url }}
+                {{ form.url.errors }}
+                <span class="hint"> <<-我信任你，不会填写广告链接</span>
+            </p>
         </div>
-        <div class="col-md-4">
-            <label for="{{ form.body.id_for_label }}">您的留言:</label>
-            {{ form.body }}
-            {{ form.body.errors }}
+
+        <div class="comments-open-text">
+            <p>
+             <label for="{{ form.body.id_for_label }}">您的留言:</label>
+            </p>
+            <p>
+                {{ form.body }}
+                {{ form.body.errors }}
+            </p>
             <button type="submit" class="comment-bin">发表</button>
         </div>
     </div>
