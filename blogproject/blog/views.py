@@ -29,8 +29,8 @@ def categories(request, category):
 
 
 def tags(request, pk):
-    #tag = Tag.objects.get(pk=pk)
-    post_list = Post.objects.filter(tags_id=pk)
+    # tag = Tag.objects.get(pk=pk)
+    post_list = Post.objects.filter(tags=pk)
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
