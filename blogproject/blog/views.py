@@ -113,9 +113,9 @@ class IndexView(ListView):
 
 def detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    md = markdown.Markdown(entensions=['markdown.extensions.extra',
+    md = markdown.Markdown(extensions=['markdown.extensions.extra',
                                        'markdown.extensions.codehilite',
-                                       'markdown.extensions.toc', ])
+                                       'markdown.extensions.toc'])
     post.dody = md.convert(post.body)
     post.toc = md.toc
     post.increase_views()
