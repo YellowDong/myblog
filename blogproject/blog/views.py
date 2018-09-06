@@ -4,6 +4,7 @@ import markdown
 from markdown.extensions.toc import TocExtension
 from django.views.generic import ListView, DetailView
 from django.utils.text import slugify
+from django.db.models import Q
 from comments.forms import CommentForm
 # Create your views here.
 
@@ -129,12 +130,9 @@ def detail(request, pk):
 
 def search(request):
     keyword = request.GET.get('keyword')
+    error_msg = ''
     if not keyword:
         error_msg = "请输入关键词"
         return render(request, 'blog/index.html', {'error_msg': error_msg})
-    posts = Post.objects.all()
-    post_list = []
-    for post in posts:
-        if keyword in post.title or keyword in post.body:
-            post_list.append(post)
-    return render(request, 'blog/index.html', context={'post_list': post_list})
+    post_list = Post.objects.filter(Q(title__icontains=keyword | Q(body__icontains=keyword)))
+    return render(request, 'blog/index.html', context={'post_list': post_list, 'error_msg': error_msg})
