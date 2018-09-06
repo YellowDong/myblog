@@ -10,7 +10,7 @@ class AllRssPostsFeed(Feed):
     link = 'all/rss'
     description = '博客更新的具体文章'
 
-    def item(self):
+    def items(self):
         return Post.objects.all()
 
     def item_title(self, item):
