@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.utils.text import slugify
 from django.db.models import Q
 from comments.forms import CommentForm
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # Create your views here.
 
 # from django.http import HttpResponse
@@ -14,8 +15,17 @@ from comments.forms import CommentForm
 def index(request):
     # return HttpResponse("liang shao dong huan ying nin !")
     post_list = Post.objects.all()
+    paginator = Paginator(post_list, 5)
+    page = request.GET.get('page')
+    try:
+        post_page = paginator.page(page)
+    except PageNotAnInteger:
+        post_page = paginator.page(1)
+    except EmptyPage:
+        post_page = paginator.page(paginator.num_pages)
+
     return render(request, 'blog/index.html',
-                  context={'title': 'this is a title', 'post_list': post_list})
+                  context={'post_list': post_list, 'post_page': post_page})
 
 
 def archives(request, year, month):
@@ -27,7 +37,7 @@ def archives(request, year, month):
 def categories(request, pk):
     # category = Category.objects.get(name=category)  # 这里用get_object_or_404更好, 参数传pk更好
 
-    post_list = Post.objects.filter(category=pk)  # .order_by('-created_time') 这里因为在model.py的Meta类中定义了排列顺序 不需要在排列
+    post_list = Post.objects.filter(category=pk)  # .order_by('-created_time') 这里因为在model.py的Meta类中定义了排列顺序 不需要再排列
     return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
@@ -129,6 +139,8 @@ def detail(request, pk):
 
 
 def search(request):
+    """简单的搜索，标题或者正文中包含搜索的关键字时，
+    返回文章的列表并展示在列表页,现已不用这个方法"""
     q = request.GET.get('q')
     error_msg = ''
     if not q:

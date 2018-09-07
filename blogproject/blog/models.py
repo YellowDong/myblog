@@ -6,14 +6,14 @@ import markdown
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)  # 分类名已经存在的情况下不能创建相同的分类名所以增加unique=True
 
     def __str__(self):
         return self.name
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -32,9 +32,6 @@ class Post(models.Model):
     # 新增一个字段用来记录文章的浏览量(新增字段记得重新迁移数据库)
     views = models.PositiveIntegerField(default=0)
 
-    # class Meta:
-    #     ordering = ['-created_time']
-
     def __str__(self):
         return self.title
 
@@ -47,7 +44,7 @@ class Post(models.Model):
 
     def increase_views(self):
         self.views += 1
-        self.save(update_fields=['views'])
+        self.save(update_fields=['views'])  # 部分更新通过update_fields添加需要更新的字段
 
     def save(self, *args, **kwargs):
         # 如果没有填写摘要，则截取内容的前54个字符作为摘要

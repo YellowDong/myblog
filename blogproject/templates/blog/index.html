@@ -27,13 +27,17 @@
     {% empty %}
         <div class="no-post">暂时还没有发布的文章！</div>
     {% endfor %}
-    <!-- 简单分页效果
+    <!-- 简单分页效果 -->
     <div class="pagination-simple">
-        <a href="#">上一页</a>
-        <span class="current">第 6 页 / 共 11 页</span>
-        <a href="#">下一页</a>
+        {% if post_page.has_previous %}
+            <a href="?page={{ post_page.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">第 {{ post_page.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
+        {% if post_page.has_next %}
+            <a href="?page={{ post_page.next_page_number }}">下一页</a>
+        {% endif %}
     </div>
-    -->
+
     <div class="pagination">
       ...
     </div>
