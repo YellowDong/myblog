@@ -20,8 +20,7 @@ def index(request):
     except EmptyPage:
         post_list = paginator.page(paginator.num_pages)
 
-    return render(request, 'blog/index.html',
-                  context={'post_list': post_list})
+    return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
 def archives(request, year, month):
@@ -50,7 +49,7 @@ def detail(request, pk):
                                        TocExtension(slugify=slugify), ])
     post.dody = md.convert(post.body)
     post.toc = md.toc
-    post.increase_views()
+    post.increase_views()  # 统计浏览量，即详情页每被调用一次就自动加一
     form = CommentForm()
     comment_list = post.comment_set.all()
     context = {'post': post, 'form': form, 'comment_list': comment_list}
