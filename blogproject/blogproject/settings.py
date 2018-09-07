@@ -26,7 +26,7 @@ SECRET_KEY = 'k#j0znqd=m0k74gz-*!$lazg*w$b(=3vc4ky7!q^+t1i)w^w_!'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.xiaoyunliu.pro']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.xiaoyunliu.pro', '*']
 
 # search engine
 HAYSTACK_CONNECTIONS = {
