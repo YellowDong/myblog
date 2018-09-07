@@ -129,10 +129,10 @@ def detail(request, pk):
 
 
 def search(request):
-    keyword = request.GET.get('keyword')
+    q = request.GET.get('q')
     error_msg = ''
-    if not keyword:
+    if not q:
         error_msg = "请输入关键词"
         return render(request, 'blog/index.html', {'error_msg': error_msg})
-    post_list = Post.objects.filter(Q(title__icontains=keyword) | Q(body__icontains=keyword))
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
     return render(request, 'blog/index.html', context={'post_list': post_list, 'error_msg': error_msg})
