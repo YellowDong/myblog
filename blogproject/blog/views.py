@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def index(request):
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, 5)
+    paginator = Paginator(post_list, 3)
     page = request.GET.get('page')
     try:
         post_page = paginator.page(page)
@@ -21,7 +21,7 @@ def index(request):
         post_page = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html',
-                  context={'post_list': post_list, 'post_page': post_page, })
+                  context={'post_list': post_list, 'post_page': post_page})
 
 
 def archives(request, year, month):
