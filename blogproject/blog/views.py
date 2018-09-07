@@ -14,14 +14,14 @@ def index(request):
     paginator = Paginator(post_list, 3)
     page = request.GET.get('page')
     try:
-        post_page = paginator.page(page)
+        post_list = paginator.page(page)
     except PageNotAnInteger:
-        post_page = paginator.page(1)
+        post_list = paginator.page(1)
     except EmptyPage:
-        post_page = paginator.page(paginator.num_pages)
+        post_list = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html',
-                  context={'post_list': post_list, 'post_page': post_page})
+                  context={'post_list': post_list})
 
 
 def archives(request, year, month):

@@ -29,12 +29,12 @@
     {% endfor %}
     <!-- 简单分页效果 -->
     <div class="pagination-simple">
-        {% if post_page.has_previous %}
-            <a href="?page={{ post_page.previous_page_number }}">上一页</a>
+        {% if post_list.has_previous %}
+            <a href="?page={{ post_list.previous_page_number }}">上一页</a>
         {% endif %}
-        <span class="current">第 {{ post_page.number }} 页 / 共 {{ post_page.paginator.num_pages }} 页</span>
-        {% if post_page.has_next %}
-            <a href="?page={{ post_page.next_page_number }}">下一页</a>
+        <span class="current">第 {{ post_list.number }} 页 / 共 {{ post_list.paginator.num_pages }} 页</span>
+        {% if post_list.has_next %}
+            <a href="?page={{ post_list.next_page_number }}">下一页</a>
         {% endif %}
     </div>
 
