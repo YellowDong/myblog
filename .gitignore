@@ -4,5 +4,6 @@
 *.log
 venv
 /.idea
-fabric.py
+fabfile.py
 db.sqlite3
+migrations/

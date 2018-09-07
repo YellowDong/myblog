@@ -1,19 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Category, Tag
+from .models import Post
 import markdown
 from markdown.extensions.toc import TocExtension
-from django.views.generic import ListView, DetailView
+
 from django.utils.text import slugify
 from django.db.models import Q
 from comments.forms import CommentForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-# Create your views here.
-
-# from django.http import HttpResponse
 
 
 def index(request):
-    # return HttpResponse("liang shao dong huan ying nin !")
     post_list = Post.objects.all()
     paginator = Paginator(post_list, 5)
     page = request.GET.get('page')
@@ -25,7 +21,7 @@ def index(request):
         post_page = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html',
-                  context={'post_list': post_list, 'post_page': post_page})
+                  context={'post_list': post_list, 'post_page': post_page, })
 
 
 def archives(request, year, month):
@@ -45,6 +41,38 @@ def tags(request, pk):
     # tag = Tag.objects.get(pk=pk)
     post_list = Post.objects.filter(tags=pk)
     return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+def detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    md = markdown.Markdown(extensions=['markdown.extensions.extra',
+                                       'markdown.extensions.codehilite',
+                                       TocExtension(slugify=slugify), ])
+    post.dody = md.convert(post.body)
+    post.toc = md.toc
+    post.increase_views()
+    form = CommentForm()
+    comment_list = post.comment_set.all()
+    context = {'post': post, 'form': form, 'comment_list': comment_list}
+    return render(request, 'blog/detail.html', context=context)
+
+
+def search(request):
+    """简单的搜索，标题或者正文中包含搜索的关键字时，
+    返回文章的列表并展示在列表页,现已不用这个方法"""
+    q = request.GET.get('q')
+    error_msg = ''
+    if not q:
+        error_msg = "请输入关键词"
+        return render(request, 'blog/index.html', {'error_msg': error_msg})
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    return render(request, 'blog/index.html', context={'post_list': post_list, 'error_msg': error_msg})
+
+
+
+
+
+from django.views.generic import ListView, DetailView
 
 
 # 使用视图类
@@ -124,27 +152,4 @@ class IndexView(ListView):
         return data
 
 
-def detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    md = markdown.Markdown(extensions=['markdown.extensions.extra',
-                                       'markdown.extensions.codehilite',
-                                       TocExtension(slugify=slugify), ])
-    post.dody = md.convert(post.body)
-    post.toc = md.toc
-    post.increase_views()
-    form = CommentForm()
-    comment_list = post.comment_set.all()
-    context = {'post': post, 'form': form, 'comment_list': comment_list}
-    return render(request, 'blog/detail.html', context=context)
 
-
-def search(request):
-    """简单的搜索，标题或者正文中包含搜索的关键字时，
-    返回文章的列表并展示在列表页,现已不用这个方法"""
-    q = request.GET.get('q')
-    error_msg = ''
-    if not q:
-        error_msg = "请输入关键词"
-        return render(request, 'blog/index.html', {'error_msg': error_msg})
-    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
-    return render(request, 'blog/index.html', context={'post_list': post_list, 'error_msg': error_msg})

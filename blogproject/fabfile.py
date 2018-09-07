@@ -19,6 +19,7 @@ def deploy():
         run("""
             pipenv install &&
             pipenv run python manage.py collectstatic --noinput &&
+            pipenv run python manage.py makemigrations &&
             pipenv run python manage.py migrate
             """)
     sudo('restart gunicorn-demo.xiaoyunliu.pro')
