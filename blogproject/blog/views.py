@@ -67,11 +67,15 @@ def search(request):
     post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
     return render(request, 'blog/index.html', context={'post_list': post_list, 'error_msg': error_msg})
 
+##################################################################
+##################################################################
 
 
-
+"""以下用的是类视图，推荐使用"""
 
 from django.views.generic import ListView, DetailView
+from blog.models import Post, Category, Tag
+from comments.forms import CommentForm
 
 
 # 使用视图类
@@ -79,7 +83,7 @@ class IndexView(ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         """在视图函数中将模板变量传递给模板是通过render函数的context参数传递一个字典实现的，
@@ -100,6 +104,8 @@ class IndexView(ListView):
         return context
 
     def pagination_data(self, paginator, page, is_paginated):
+        if not is_paginated:
+            return {}
         curren_page = page.number
         total_pages = paginator.num_pages
         page_range = paginator.page_range
@@ -121,16 +127,14 @@ class IndexView(ListView):
                 right_has_more = True
 
         elif curren_page == total_pages:
-            left_range = page_range[(curren_page-3) if (curren_page - 3) > 0
-                                   else 0:total_pages]
+            left_range = page_range[(curren_page-3) if (curren_page - 3) > 0 else 0:total_pages-1]
             if left_range[0] - 1 > 1:
                 left_has_more = True
-                if left_range[0] > 1:
-                    first = True
+            if left_range[0] > 1:
+                first = True
 
         else:
-            left_range = page_range[(curren_page - 3) if (curren_page - 3) > 0
-                                     else 0:curren_page - 1]
+            left_range = page_range[(curren_page - 3) if (curren_page - 3) > 0 else 0:curren_page - 1]
             right_range = page_range[curren_page:curren_page+2]
             if right_range[-1] < total_pages - 1:
                 right_has_more = True
@@ -149,6 +153,48 @@ class IndexView(ListView):
            'first': first,
         }
         return data
+
+
+class CategoriesView(IndexView):
+    def get_queryset(self):
+        cat = get_object_or_404(Category, pk=self.kwargs.get('pk'))  # 获取分类名
+        return super().get_queryset().filter(category=cat)
+
+
+class TagsView(IndexView):
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))  # 获取标签名
+        return super().get_queryset().filter(tags=tag)
+
+
+class ArchivesView(IndexView):
+    def get_queryset(self):
+        return super().get_queryset().filter(created_time__year=self.kwargs.get('year'), created_time__month=self.kwargs.get('month'))
+
+
+class DetailViews(DetailView):
+    model = Post
+    template_name = 'blog/detail.html'
+    context_object_name = 'post'
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        self.object.increase_views()
+        return response
+
+    # def get_object(self, queryset=None):
+    #     post = super().get_object(queryset=queryset)
+    #     post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = CommentForm()
+        comment_list = self.object.comment_set.all
+        context.update({'form': form, 'comment_list': comment_list})
+        return context
+
+
+
 
 
 

@@ -44,13 +44,14 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.contenttypes',  # auth 模块的用户权限处理部分依赖的应用
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'haystack',
     'blog',
     'comments',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# 为了让用户用我自己定义的用户模型，必须在这里指定
+AUTH_USER_MODEL = 'users.User'

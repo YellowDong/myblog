@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from blog.feeds import AllRssPostsFeed
+from users.views import index
 
 urlpatterns = [
     path(r'admin/', admin.site.urls),
@@ -23,4 +24,8 @@ urlpatterns = [
     path(r'', include('comments.urls')),
     path(r'all/rss/', AllRssPostsFeed(), name='rss'),
     path(r'search/', include('haystack.urls')),
+    path(r'users/', include('users.urls')),
+    path(r'users', include('django.contrib.auth.urls')),
+
+
 ]
