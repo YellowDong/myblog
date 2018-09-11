@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import User
 from django.urls import reverse
 from django.utils.html import strip_tags
 import markdown
@@ -28,7 +29,7 @@ class Post(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)# 这里有一个坑，在定义自己的User模型时，必须也把这个author字段关联的User模型更换
     # 新增一个字段用来记录文章的浏览量(新增字段记得重新迁移数据库)
     views = models.PositiveIntegerField(default=0)
 

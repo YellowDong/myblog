@@ -138,4 +138,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # 为了让用户用我自己定义的用户模型，必须在这里指定
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'  # 指定自定义的用户模型必须在第一次运行makemigrations之前，不然会造成数据表依赖冲突等问题，比较麻烦
