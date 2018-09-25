@@ -25,7 +25,7 @@ urlpatterns = [
     path(r'all/rss/', AllRssPostsFeed(), name='rss'),
     path(r'search/', include('haystack.urls')),
     path(r'users/', include('users.urls')),
-    path(r'users', include('django.contrib.auth.urls')),
+    path(r'users/', include('django.contrib.auth.urls')),
 
 
 ]
